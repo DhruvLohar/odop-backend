@@ -17,9 +17,6 @@ from odop_backend.responses import *
 
 class AuthMixin:
     
-    def get_otp_on_phone():
-        pass
-    
     @staticmethod
     def send_otp_on_email(subject, template_name, email_to, context=None):
         try:
@@ -85,7 +82,6 @@ class AuthMixin:
     @action(detail=False, methods=['POST'], authentication_classes=[])
     def signUpSignIn(self, request):
         email = request.data.get("email")
-        print(request.data)
         
         try:
             user = User.objects.get(email=email)
@@ -138,7 +134,7 @@ class AuthMixin:
                     return ResponseError(message="Something went wrong while creating an user")
                     
             except IntegrityError:
-                return ResponseError(message="User with the same 'phone_number' already exists")
+                return ResponseError(message="User with the same 'email' already exists")
             except UnicodeDecodeError as e:
                 return ResponseError(message="UnicodeDecodeError occurred: " + str(e))
             except Exception as e:

@@ -23,4 +23,4 @@ class UpdateArtisanSerializer(serializers.ModelSerializer):
 class CreateArtisanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artisan
-        fields = ['name', 'phone_number']
+        fields = ['name', 'email', 'phone_number']

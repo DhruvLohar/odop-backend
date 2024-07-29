@@ -18,7 +18,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from odop_backend import settings
 
-from user.urls import router as userRouter
+from user.urls import router as ur
+from artisan.urls import router as ar
 
 from django.shortcuts import render
 def view(request):
@@ -33,7 +34,8 @@ urlpatterns = [
     
     path("view/", view),
     
-    path('user/', include(userRouter.urls)),
+    path('user/', include(ur.urls)),
+    path('artisan/', include(ar.urls)),
 ]
 
 if settings.DEBUG:

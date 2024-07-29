@@ -9,7 +9,7 @@ class ArtisanAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'access_token', 'created_at', 'modified_at',)
     
     fieldsets = (
-        (None, {'fields': ('id', 'is_active',)}),
+        (None, {'fields': ('id', 'is_active', 'verified_by_authority',)}),
         ('Personal Information', {
             'fields': ('profile_image', 'name', 'phone_number', 'email', 'gender',)
         }),

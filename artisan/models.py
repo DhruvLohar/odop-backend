@@ -3,6 +3,8 @@ from user.models import BaseUser, GENDER
 
 class Artisan(BaseUser):
     
+    verified_by_authority = models.BooleanField(default=False)
+    
     date_of_birth = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER)
     
