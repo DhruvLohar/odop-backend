@@ -11,6 +11,8 @@ from django.template.loader import render_to_string
 from .models import User
 from .serializers import *
 
+from services.views import NormalServicesMixin
+
 from odop_backend import settings
 from odop_backend.permissions import CookieAuthentication
 from odop_backend.responses import *
@@ -144,6 +146,7 @@ class AuthMixin:
 class UserAPIView(
     ModelViewSet,
     AuthMixin,
+    NormalServicesMixin
 ):
     queryset = User.objects.all()
     serializer_class = UserSerializer

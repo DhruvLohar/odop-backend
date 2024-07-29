@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     
     'user.apps.UserConfig',
     'artisan.apps.ArtisanConfig',
+    'services.apps.ServicesConfig',
 ]
 
 MIDDLEWARE = [

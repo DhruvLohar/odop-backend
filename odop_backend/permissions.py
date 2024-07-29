@@ -24,13 +24,11 @@ class CookieAuthentication(JWTAuthentication):
         # Get the access token from the cookie
         access_token = self.get_access_token(request)
 
-        print(access_token)
         if not access_token:
             return None
 
         # Validate and decode the access token
         validated_token = self.get_validated_token(access_token)
-        print(validated_token)
 
         try:
             # Retrieve the user based on the token's user_id

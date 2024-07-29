@@ -3,6 +3,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser
 
+from services.models import Notification
+
 from rest_framework_simplejwt.tokens import AccessToken, TokenError
 
 # from firebase_admin import messaging, _messaging_utils
@@ -61,71 +63,39 @@ class BaseUser(AbstractBaseUser, models.Model):
         new_token = AccessToken.for_user(self)
         return str(new_token), True
     
-    # def sendNotification(self, payload, sent_by, noti_type):
-    #     notification_details = payload.get("notification", {})
-    #     data = payload.get("data", {})
+    def sendNotification(self, title, body):
         
-    #     title = notification_details.get("title")
-    #     body = notification_details.get("body")
+        # Create the notification in our database
+        notification = Notification.objects.create(
+            user=self.pk,
+            title=title,
+            body=body
+        )
+        notification.save()
         
-    #     # Ensure title and body are not None
-    #     if not title:
-    #         print("Notification title is missing.")
-    #         return None
+        if not notification:
+            print("Failed to create notification in the database.")
+            return None
         
-    #     existing_notification = serviceModels.Notification.objects.filter(
-    #         notification_type=noti_type,
-    #         user=self,
-    #         sender_user=sent_by,
-    #         is_valid=True
-    #     )
-        
-    #     if existing_notification.exists():
-    #         existing_notification.update(is_valid=False)
-        
-    #     # Create the notification in our database
-    #     notification = serviceModels.Notification.objects.create(
-    #         notification_type=noti_type,
-    #         title=title,
-    #         user=self,
-    #         sender_user=sent_by
-    #     )
-        
-    #     if not notification:
-    #         print("Failed to create notification in the database.")
-    #         return None
-            
-    #     # Prepare the message
-    #     base_data = {
-    #         "id": str(sent_by.id),
-    #         "notification_id": str(notification.id),
-    #         "type": noti_type
-    #     }
-    #     base_data.update(data)
-        
-    #     payload["data"] = base_data
-    #     notification.payload = payload
-    #     notification.save()
-        
-    #     if self.fcm_token:
-    #         try:
-    #             message = messaging.Message(
-    #                 data=base_data,
-    #                 notification=messaging.Notification(
-    #                     title=title,
-    #                     body=body
-    #                 ),
-    #                 token=self.fcm_token
-    #             )
-    #             # Attempt to send the message
-    #             response = messaging.send(message)
-    #             return notification
-    #         except _messaging_utils.UnregisteredError:
-    #             print(f"Token {self.fcm_token} is unregistered. Removing from database.")
-    #         except Exception as e:
-    #             print(f"Error sending notification: {e}")
+        # if self.fcm_token:
+        #     try:
+        #         message = messaging.Message(
+        #             data=base_data,
+        #             notification=messaging.Notification(
+        #                 title=title,
+        #                 body=body
+        #             ),
+        #             token=self.fcm_token
+        #         )
+        #         # Attempt to send the message
+        #         response = messaging.send(message)
+        #         return notification
+        #     except _messaging_utils.UnregisteredError:
+        #         print(f"Token {self.fcm_token} is unregistered. Removing from database.")
+        #     except Exception as e:
+        #         print(f"Error sending notification: {e}")
                 
-    #     return notification
+        return notification
 
     def __str__(self):
         return str(self.name)
