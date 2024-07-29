@@ -1,38 +1,12 @@
 import re
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser
 
 from rest_framework_simplejwt.tokens import AccessToken, TokenError
 
 # from firebase_admin import messaging, _messaging_utils
 # from service import models as serviceModels
-
-class UserManager(BaseUserManager):
-    def create_user(self, contact_number, **extra_fields):
-        """
-        Creates and saves a user with the given contact number.
-        """
-        if not contact_number:
-            raise ValueError('The contact number must be set.')
-
-        user = self.model(contact_number=contact_number, **extra_fields)
-        user.set_unusable_password()  # Set an unusable password since we don't need one
-        user.save(using=self._db)
-        return user
-    
-    def create_superuser(self, contact_number, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        return self.create_user(contact_number, password=password, **extra_fields)
-
 
 def validate_phone_number(value):
     phone_number_pattern = re.compile(r'^\d{4,15}$')
@@ -44,7 +18,7 @@ class BaseUser(AbstractBaseUser, models.Model):
     
     name = models.CharField(max_length=120, blank=True)
     
-    email = models.EmailField(null=True, blank=True)
+    email = models.EmailField(unique=True)
     phone_number = models.CharField(
         max_length=15,  # Adjust length as needed
         unique=True,
@@ -60,13 +34,13 @@ class BaseUser(AbstractBaseUser, models.Model):
         help_text="Designates whether this user should be treated as active."
     )
     
+    valid_otp = models.PositiveIntegerField(null=True, blank=True)
     access_token = models.TextField(null=True, blank=True)
     fcm_token = models.TextField(null=True, blank=True)
     
-    # objects = UserManager()
     
-    USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['name']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'phone_number']
     
     class Meta:
         verbose_name = "Admin User"

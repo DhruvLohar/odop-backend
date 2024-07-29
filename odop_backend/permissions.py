@@ -24,17 +24,17 @@ class CookieAuthentication(JWTAuthentication):
         # Get the access token from the cookie
         access_token = self.get_access_token(request)
 
+        print(access_token)
         if not access_token:
             return None
 
         # Validate and decode the access token
         validated_token = self.get_validated_token(access_token)
+        print(validated_token)
 
         try:
             # Retrieve the user based on the token's user_id
             user = BaseUser.objects.get(id=validated_token[settings.SIMPLE_JWT.get('USER_ID_CLAIM')])
-            if not user.is_active:
-                raise AuthenticationFailed("Cannot perform this operation")
 
             # Return a tuple of (user, validated_token) to indicate a successful authentication
             return (user, validated_token)

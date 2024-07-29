@@ -14,8 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls.static import static
+from odop_backend import settings
+
+from user.urls import router as userRouter
+
+from django.shortcuts import render
+def view(request):
+    return render(request, "otp_email_template.html", context={
+        "date": "12th Aug, 2012",
+        "username": "Dhruv Lohar",
+        "generated_otp": "123534"
+    })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    path("view/", view),
+    
+    path('user/', include(userRouter.urls)),
 ]
+
+if settings.DEBUG:
+    # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIR)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

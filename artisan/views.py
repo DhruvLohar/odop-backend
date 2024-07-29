@@ -3,10 +3,14 @@ from django.utils import timezone
 from rest_framework.decorators import action
 from django.db import transaction
 from django.db.utils import IntegrityError
+from django.core.mail import EmailMultiAlternatives
+from django.utils import html
+from django.template.loader import render_to_string
 
 from .models import Artisan
 from .serializers import *
 
+from odop_backend import settings
 from odop_backend.permissions import CookieAuthentication
 from odop_backend.responses import *
 
@@ -15,14 +19,19 @@ class AuthMixin:
     def get_otp_on_phone():
         pass
     
-    def get_otp_on_email():
-        pass
+    def get_otp_on_email(subject, template_name, email_to, context=None):
+        email_template = render_to_string(f'{template_name}', context if not context else {})
+        template_content = html.strip_tags(email_template)
+        email = EmailMultiAlternatives(subject, template_content, settings.EMAIL_HOST_USER, to=[email_to])
+        email.attach_alternative(email_template, 'text/html')
+        email.send()
     
     def create(self, request):
         phone_number = request.data.get("phone_number")
         
         try:
             user = Artisan.objects.get(phone_number=phone_number)
+                
             accessToken, changeUserToken = user.generateToken()
             if changeUserToken:
                 user.access_token = accessToken

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -45,6 +46,25 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'accesstoken',
 ]
+
+# JWT AUTH CONFIG
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
+    "ROTATE_REFRESH_TOKENS": False, # This will generate a new refresh token whenever a refresh token is asked for 
+    "BLACKLIST_AFTER_ROTATION": True, # This will make any previos refresh token that isnt expired as blacklist and only current refresh token can be used
+    "UPDATE_LAST_LOGIN": True,
+
+    'ACCESS_TOKEN_COOKIE_NAME': 'access_token',
+    'ACCESS_TOKEN_COOKIE_SECURE': not DEBUG,  # Set this to True for HTTPS environments
+    'ACCESS_TOKEN_COOKIE_HTTPONLY': True,
+    'ACCESS_TOKEN_COOKIE_SAMESITE': 'Lax',
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+}
 
 if DEBUG:
     DEFAULT_RENDERER_CLASSES = (
@@ -89,7 +109,9 @@ ROOT_URLCONF = 'odop_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
