@@ -29,11 +29,21 @@ SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv('PRODUCTION')) != 'Y'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'odop.insighttellers.com']
 
-# CSRF_TRUSTED_ORIGINS = ['*']
-CORS_ORIGIN_ALLOW_ALL = True
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15 * 1024 * 1024
+
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ALLOWED_ORIGINS = [
+    "https://odop.insighttellers.com",
+    "http://localhost:3000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://odop.insighttellers.com',
+    'http://localhost:3000'
+]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -179,13 +189,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static"
-]
+STATIC_URL = 'static/'
 
-if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
+
+# if not DEBUG:
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
