@@ -95,6 +95,9 @@ INSTALLED_APPS = [
     
     'product.apps.ProductConfig',
     'order.apps.OrderConfig',
+    
+    'workshop.apps.WorkshopConfig',
+    'community.apps.CommunityConfig',
 ]
 
 MIDDLEWARE = [
