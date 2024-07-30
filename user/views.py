@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from .models import User
 from .serializers import *
 
+from order.serializers import OrderSerializer
 from services.views import NormalServicesMixin
 
 from odop_backend import settings
@@ -174,4 +175,15 @@ class UserAPIView(
         request.user.save()
         
         return ResponseSuccess({}, message="Token updated successfully")
+    
+    @action(detail=True, methods=['GET'])
+    def getAllOrders(self, request, pk=None):
+        user = self.get_object()
         
+        orders = user.orders.all()
+        serializer = OrderSerializer(orders, many=True)
+        
+        return ResponseSuccess({
+            "orders": serializer.data
+        })
+    

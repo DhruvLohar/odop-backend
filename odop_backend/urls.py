@@ -20,6 +20,8 @@ from odop_backend import settings
 
 from user.urls import router as ur
 from artisan.urls import router as ar
+from product.urls import router as pr
+from order.urls import router as ordr
 from workshop.urls import workshopRouter, eventRouter 
 from community.urls import jobRouter, machineRouter
 
@@ -38,6 +40,8 @@ urlpatterns = [
     
     path('user/', include(ur.urls)),
     path('artisan/', include(ar.urls)),
+    path('product/', include(pr.urls)),
+    path('order/', include(ordr.urls)),
     
     path('workshop/', include(workshopRouter.urls)),
     path('event/', include(eventRouter.urls)),

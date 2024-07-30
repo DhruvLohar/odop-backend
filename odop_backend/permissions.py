@@ -4,13 +4,14 @@ from rest_framework.authentication import get_authorization_header
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from odop_backend import settings
+from artisan.models import Artisan
 from user.models import BaseUser
 
-class IsAuthenticated(permissions.BasePermission):
-    message = "User is not logged in."
+class IsArtisan(permissions.BasePermission):
+    message = "You cannot perform this action"
 
     def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated)
+        return request.user_type == "artisan"
 
 class UserObjectPermission(permissions.BasePermission):
     message = 'You do not have Object permission to perform this action.'
@@ -33,6 +34,8 @@ class CookieAuthentication(JWTAuthentication):
         try:
             # Retrieve the user based on the token's user_id
             user = BaseUser.objects.get(id=validated_token[settings.SIMPLE_JWT.get('USER_ID_CLAIM')])
+            
+            request.user_type = self.get_user_type(user)
 
             # Return a tuple of (user, validated_token) to indicate a successful authentication
             return (user, validated_token)
@@ -59,6 +62,14 @@ class CookieAuthentication(JWTAuthentication):
 
             return None
         except Exception: return None
+        
+    @staticmethod
+    def get_user_type(user):
+        try:
+            a = Artisan.objects.get(id=user.id)
+            return "artisan" 
+        except Exception:
+            return "user"
 
     def get_cookie_name(self):
         return settings.SIMPLE_JWT.get('ACCESS_TOKEN_COOKIE_NAME')

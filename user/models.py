@@ -7,8 +7,7 @@ from services.models import Notification
 
 from rest_framework_simplejwt.tokens import AccessToken, TokenError
 
-# from firebase_admin import messaging, _messaging_utils
-# from service import models as serviceModels
+from firebase_admin import messaging, _messaging_utils
 
 def validate_phone_number(value):
     phone_number_pattern = re.compile(r'^\d{4,15}$')
@@ -77,23 +76,22 @@ class BaseUser(AbstractBaseUser, models.Model):
             print("Failed to create notification in the database.")
             return None
         
-        # if self.fcm_token:
-        #     try:
-        #         message = messaging.Message(
-        #             data=base_data,
-        #             notification=messaging.Notification(
-        #                 title=title,
-        #                 body=body
-        #             ),
-        #             token=self.fcm_token
-        #         )
-        #         # Attempt to send the message
-        #         response = messaging.send(message)
-        #         return notification
-        #     except _messaging_utils.UnregisteredError:
-        #         print(f"Token {self.fcm_token} is unregistered. Removing from database.")
-        #     except Exception as e:
-        #         print(f"Error sending notification: {e}")
+        if self.fcm_token:
+            try:
+                message = messaging.Message(
+                    notification=messaging.Notification(
+                        title=title,
+                        body=body
+                    ),
+                    token=self.fcm_token
+                )
+                # Attempt to send the message
+                response = messaging.send(message)
+                
+            except _messaging_utils.UnregisteredError:
+                print(f"Token {self.fcm_token} is unregistered. Removing from database.")
+            except Exception as e:
+                print(f"Error sending notification: {e}")
                 
         return notification
 

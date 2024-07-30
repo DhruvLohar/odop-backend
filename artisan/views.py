@@ -10,6 +10,9 @@ from django.template.loader import render_to_string
 
 from .models import Artisan
 from .serializers import *
+from order.models import OrderLineItem
+from product.serializers import *
+from order.serializers import *
 
 from odop_backend import settings
 from odop_backend.permissions import CookieAuthentication
@@ -151,7 +154,7 @@ class AuthMixin:
 
 class ArtisanAPIView(
     ModelViewSet,
-    AuthMixin,
+    AuthMixin
 ):
     queryset = Artisan.objects.all()
     serializer_class = ArtisanSerializer
@@ -176,4 +179,25 @@ class ArtisanAPIView(
         request.user.save()
         
         return ResponseSuccess({}, message="Token updated successfully")
+    
+    @action(detail=True, methods=['GET'])
+    def getAllProducts(self, request, pk=None):
+        artisan = self.get_object()
         
+        products = artisan.listed_products.all()
+        serializer = ProductSerializer(products, many=True)
+        
+        return ResponseSuccess({
+            "products": serializer.data
+        })
+        
+    @action(detail=True, methods=['GET'])
+    def allPendingOrders(self, request, pk=None):
+        artisan = self.get_object()
+        
+        order_lines = OrderLineItem.objects.filter(product__artisan__id=artisan.id)
+        serializer = ArtisanOrdersListSerializer(order_lines, many=True)
+        
+        return ResponseSuccess({
+            "orders": serializer.data
+        })
