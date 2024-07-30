@@ -20,6 +20,8 @@ from odop_backend import settings
 
 from user.urls import router as ur
 from artisan.urls import router as ar
+from workshop.urls import workshopRouter, eventRouter 
+from community.urls import jobRouter, machineRouter
 
 from django.shortcuts import render
 def view(request):
@@ -36,6 +38,12 @@ urlpatterns = [
     
     path('user/', include(ur.urls)),
     path('artisan/', include(ar.urls)),
+    
+    path('workshop/', include(workshopRouter.urls)),
+    path('event/', include(eventRouter.urls)),
+    
+    path('community/job/', include(jobRouter.urls)),
+    path('community/rental_machines/', include(machineRouter.urls)),
 ]
 
 if settings.DEBUG:
