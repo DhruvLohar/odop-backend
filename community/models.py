@@ -1,5 +1,11 @@
 from django.db import models
 
+STATUS = (
+    ('PEN', 'Pending'),
+    ('APR', 'Approved'),
+    ('CAN', 'Cancelled'),
+)
+
 class JobPost(models.Model):
     
     artisan = models.ForeignKey("artisan.Artisan", related_name="job_posts", on_delete=models.PROTECT)
@@ -24,11 +30,11 @@ class JobPostApplicationRequest(models.Model):
 
     about = models.TextField()
     
-    is_confirmed = models.BooleanField(default=False)
+    status = models.CharField(choices=STATUS, max_length=20, default="PEN")
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
-        return self.artisan
+        return self.artisan.name
 
 class RentalMachine(models.Model):
     
@@ -56,8 +62,8 @@ class RentalMachineBookingRequest(models.Model):
     end_time = models.DateTimeField()
     purpose = models.TextField(blank=True, null=True)
     
-    is_confirmed = models.BooleanField(default=False)
+    status = models.CharField(choices=STATUS, max_length=20, default="PEN")
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
-        return self.artisan
+        return self.artisan.name

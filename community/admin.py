@@ -18,7 +18,7 @@ class JobPostAdmin(admin.ModelAdmin):
     )
 
     # List display fields in the admin list view
-    list_display = ('title', 'artisan', 'vacancy', 'is_active', 'created_at')
+    list_display = ('id', 'title', 'artisan', 'vacancy', 'is_active', 'created_at')
     
     # Filter options in the admin list view
     list_filter = ('is_active', 'artisan')
@@ -39,7 +39,7 @@ class JobPostApplicationRequestAdmin(admin.ModelAdmin):
             'fields': ('artisan', 'job_post', 'about')
         }),
         ('Status', {
-            'fields': ('is_confirmed',),
+            'fields': ('status',),
             'classes': ('collapse',),
         }),
         ('Metadata', {
@@ -49,10 +49,10 @@ class JobPostApplicationRequestAdmin(admin.ModelAdmin):
     )
 
     # List display fields in the admin list view
-    list_display = ('artisan', 'job_post', 'is_confirmed', 'created_at')
+    list_display = ('id', 'artisan', 'job_post', 'status', 'created_at')
     
     # Filter options in the admin list view
-    list_filter = ('is_confirmed', 'job_post')
+    list_filter = ('status', 'job_post')
     
     # Search fields for the admin search bar
     search_fields = ('artisan__name', 'job_post__title', 'about')
@@ -80,7 +80,7 @@ class RentalMachineAdmin(admin.ModelAdmin):
     )
 
     # List display fields in the admin list view
-    list_display = ('title', 'artisan', 'starting_time', 'ending_time', 'is_active', 'created_at')
+    list_display = ('id', 'title', 'artisan', 'starting_time', 'ending_time', 'is_active', 'created_at')
     
     # Filter options in the admin list view
     list_filter = ('is_active', 'artisan')
@@ -101,7 +101,7 @@ class RentalMachineBookingRequestAdmin(admin.ModelAdmin):
             'fields': ('artisan', 'rental_machine', 'start_time', 'end_time', 'purpose')
         }),
         ('Status', {
-            'fields': ('is_confirmed',),
+            'fields': ('status',),
             'classes': ('collapse',),
         }),
         ('Metadata', {
@@ -111,10 +111,10 @@ class RentalMachineBookingRequestAdmin(admin.ModelAdmin):
     )
 
     # List display fields in the admin list view
-    list_display = ('artisan', 'rental_machine', 'start_time', 'end_time', 'is_confirmed', 'created_at')
+    list_display = ('id', 'artisan', 'rental_machine', 'start_time', 'end_time', 'status', 'created_at')
     
     # Filter options in the admin list view
-    list_filter = ('is_confirmed', 'rental_machine')
+    list_filter = ('status', 'rental_machine')
     
     # Search fields for the admin search bar
     search_fields = ('artisan__name', 'rental_machine__title', 'purpose')
