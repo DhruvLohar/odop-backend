@@ -31,3 +31,8 @@ class RentalMachineCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RentalMachine
         fields = ['artisan', 'title', 'description', 'starting_time', 'ending_time']
+    
+    def validate(self, data):
+        if data['starting_time'] >= data['ending_time']:
+            raise serializers.ValidationError("Ending time must be after starting time.")
+        return data

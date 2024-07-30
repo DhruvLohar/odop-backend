@@ -43,7 +43,7 @@ class RentalMachine(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     
-    starting_time = models.TimeField() # start to end time in a day in which the artisan can book this machine  
+    starting_time = models.TimeField() 
     ending_time = models.TimeField()  
     
     is_active = models.BooleanField(default=True)
