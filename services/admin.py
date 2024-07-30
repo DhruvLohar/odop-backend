@@ -8,3 +8,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'title', 'created_at',)
+    
+@admin.register(OrderReview)
+class OrderReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'star_rating', 'comment',)
