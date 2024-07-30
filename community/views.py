@@ -41,7 +41,9 @@ class JobPostAPIView(
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return ResponseSuccess(response={
+            "job_posts": serializer.data
+        })
     
     @action(detail=True, methods=['POST'])
     def apply(self, request, pk=None):
