@@ -43,6 +43,7 @@ class ArtisanServicesMixin:
         image = request.data.get("image")
         
         print(image)
+        hello_world.delay()
         
         return ResponseSuccess(message="response 1")
     

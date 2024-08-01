@@ -1,7 +1,7 @@
 amqp==5.2.0
 asgiref==3.8.1
 billiard==4.2.0
-celery==5.4.0
+celery[redis]
 certifi==2024.7.4
 charset-normalizer==3.3.2
 click==8.1.7
@@ -33,3 +33,8 @@ wcwidth==0.2.13
 firebase_admin
 django-redis
 google-generativeai
+tensorflow
+numpy
+pandas
+opencv-python
+pytesseract

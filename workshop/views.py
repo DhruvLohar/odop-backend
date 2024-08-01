@@ -33,7 +33,7 @@ class WorkshopAPIView(ModelViewSet):
         data = request.data.copy()
         data["artisan"] = request.user.id
 
-        serializer = self.get_serializer(data=data)
+        serializer = WorkshopCreateSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
@@ -108,7 +108,7 @@ class EventAPIView(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = EventCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
@@ -130,6 +130,7 @@ class EventAPIView(ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         event = self.get_object()
+        
         if not event.is_active:
             return ResponseError(message="Event not found", status=status.HTTP_404_NOT_FOUND)
 

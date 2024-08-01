@@ -6,9 +6,9 @@ logger = logging.getLogger(__name__)
 genai.configure(api_key="AIzaSyDQSHkLpB-7nnNvVjzv9pkWG6-WmpYL86o")
 
 @shared_task
-def get_chatbot_response():
+def hello_world():
     logger.info("run hua")
-    return "hello"
+    print("hello")
 
 def get_chatbot_response(user_input):
 
