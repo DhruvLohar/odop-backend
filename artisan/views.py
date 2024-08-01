@@ -13,6 +13,7 @@ from .serializers import *
 from order.models import OrderLineItem
 from product.serializers import *
 from order.serializers import *
+from services.views import ArtisanServicesMixin
 
 from odop_backend import settings
 from odop_backend.permissions import CookieAuthentication
@@ -154,7 +155,8 @@ class AuthMixin:
 
 class ArtisanAPIView(
     ModelViewSet,
-    AuthMixin
+    AuthMixin,
+    ArtisanServicesMixin
 ):
     queryset = Artisan.objects.all()
     serializer_class = ArtisanSerializer

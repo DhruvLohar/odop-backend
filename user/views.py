@@ -134,7 +134,11 @@ class AuthMixin:
                             }
                         }, message="User logged in successfully")
                     
-                    return ResponseError(message="Something went wrong while creating an user")
+                    return ResponseSuccess({
+                            "error": serializer.errors
+                        },
+                        message="Something went wrong while creating an user"
+                    )
                     
             except IntegrityError:
                 return ResponseError(message="User with the same 'email' already exists")
@@ -186,4 +190,3 @@ class UserAPIView(
         return ResponseSuccess({
             "orders": serializer.data
         })
-    

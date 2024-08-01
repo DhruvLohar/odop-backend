@@ -2,6 +2,7 @@ from rest_framework.decorators import action
 
 from .models import *
 from .serializers import *
+from .tasks import *
 
 from odop_backend.responses import *
 
@@ -24,3 +25,32 @@ class NormalServicesMixin:
         return ResponseSuccess({
             "all_notifications": serializer.data
         }, message="Success")
+        
+
+class ArtisanServicesMixin:
+    @action(detail=False, methods=['POST'])
+    def getChatbotResponse(self, request):
+        
+        prompt = request.data.get("prompt")
+        
+        resp = get_chatbot_response(prompt)
+        
+        return ResponseSuccess(message=resp)
+    
+    @action(detail=False, methods=['POST'])
+    def verifyDocuments(self, request):
+        
+        image = request.data.get("image")
+        
+        print(image)
+        
+        return ResponseSuccess(message="response 1")
+    
+    @action(detail=False, methods=['POST'])
+    def getForecastingData(self, request):
+        
+        raw_material = request.data.get("raw_material")
+        
+        print(raw_material)
+        
+        return ResponseSuccess(message="response 1")
