@@ -33,17 +33,17 @@ class ArtisanServicesMixin:
         
         prompt = request.data.get("prompt")
         
-        resp = get_chatbot_response(prompt)
+        # resp = get_chatbot_response(prompt)
         
         return ResponseSuccess(message=resp)
     
     @action(detail=False, methods=['POST'])
     def verifyDocuments(self, request):
         
-        image = request.data.get("image")
-        
-        print(image)
-        hello_world.delay()
+        # image = request.data.get("image")
+        # 
+        # print(image)
+        # hello_world.delay()
         
         return ResponseSuccess(message="response 1")
     

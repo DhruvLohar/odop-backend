@@ -5,7 +5,7 @@ class Artisan(BaseUser):
     
     verified_by_authority = models.BooleanField(default=False)
     
-    date_of_birth = models.DateField(null=True, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER)
     
     address = models.TextField(null=True, blank=True)
