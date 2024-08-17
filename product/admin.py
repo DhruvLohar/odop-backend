@@ -6,7 +6,7 @@ class ProductAdmin(admin.ModelAdmin):
     # Define fieldsets for the admin form layout
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'back_story', 'price', 'is_customizable', 'custom_note',)
+            'fields': ('title', 'description', 'back_story', 'price', 'is_customizable',)
         }),
         ('Details', {
             'fields': ('dimensions', 'product_details', 'raw_material', 'category', 'quantity', 'restock_date'),

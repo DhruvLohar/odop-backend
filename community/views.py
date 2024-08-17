@@ -82,8 +82,6 @@ class JobPostAPIView(
             return Response(status=status.HTTP_204_NO_CONTENT)
     
 
-        
-    
 class RentalMachineAPIView(ModelViewSet):
     queryset = RentalMachine.objects.all()
     serializer_class = RentalMachineSerializer
@@ -94,7 +92,9 @@ class RentalMachineAPIView(ModelViewSet):
         data = request.data.copy()
         data["artisan"] = request.user.id
 
-        serializer = RentalMachineCreateSerializer(data=data)
+        serializer = RentalMachineCreateSerializer(data=data, context={
+            "machine_images": request.data.getlist('machine_images[]')
+        })
         serializer.is_valid(raise_exception=True)
 
         self.perform_create(serializer)

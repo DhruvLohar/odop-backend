@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Product
+from services.models import *
 from .constants import FOOD_AND_PLANT_PRODUCTS, CLOTHING_PRODUCTS, ARTWORK, HANDICRAFT_PRODUCTS
+
 
 from artisan.serializers import ArtisanSerializer
 
@@ -35,3 +37,14 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         ]):
             raise serializers.ValidationError("Invalid category type.")
         return value
+
+    def create(self, validated_data):
+        product = super().create(validated_data)
+        
+        product_images = self.context.get("product_images")
+        
+        for imageObj in product_images:
+            image = ProductImage.objects.create(product=product, image=imageObj)
+            image.save()
+        
+        return product

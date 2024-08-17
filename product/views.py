@@ -28,8 +28,12 @@ class ProductAPIView(ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
+        
         data["artisan"] = request.user.id
-        serializer = ProductCreateSerializer(data=data)
+        
+        serializer = ProductCreateSerializer(data=data, context={
+            "product_images": request.data.getlist('product_images[]')
+        })
         
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -37,4 +41,3 @@ class ProductAPIView(ModelViewSet):
         return ResponseSuccess(response={
             "product": serializer.data
         })
-        

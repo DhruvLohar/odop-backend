@@ -11,7 +11,6 @@ class Feedback(models.Model):
     
     def __str__(self) -> str:
         return str(self.user.name)
-    
 
 class Notification(models.Model):
 
@@ -41,4 +40,35 @@ class OrderReview(models.Model):
     
     def canReviewOrder(self, uid):
         return self.order.user.pk == int(uid)
-            
+
+
+# Multi image support for models: Product, Workshop, RentalMachine
+
+class ProductImage(models.Model):
+    
+    product = models.ForeignKey("product.Product", related_name="product_images", on_delete=models.CASCADE)
+    
+    image = models.ImageField(upload_to="products/")
+    
+    def __str__(self) -> str:
+        return self.product.title
+
+
+class WorkshopImage(models.Model):
+    
+    workshop = models.ForeignKey("workshop.Workshop", related_name="workshop_images", on_delete=models.CASCADE)
+    
+    image = models.ImageField(upload_to="workshops/")
+    
+    def __str__(self) -> str:
+        return self.workshop.title
+
+    
+class RentalMachineImage(models.Model):
+    
+    machine = models.ForeignKey("community.RentalMachine", related_name="machine_images", on_delete=models.CASCADE)
+    
+    image = models.ImageField(upload_to="rental_machines/")
+    
+    def __str__(self) -> str:
+        return self.machine.title

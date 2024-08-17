@@ -13,7 +13,6 @@ class Product(models.Model):
     back_story = models.TextField()
     price = models.PositiveIntegerField()
     is_customizable = models.BooleanField(default=False)
-    custom_note = models.TextField(null=True, blank=True)
     dimensions = models.JSONField(default=dict) # length, width, height, weight 
     product_details = models.JSONField(default=dict)
     
