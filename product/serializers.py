@@ -9,10 +9,18 @@ from artisan.serializers import ArtisanSerializer
 class ProductSerializer(serializers.ModelSerializer):
     
     artisan = ArtisanSerializer()
+    images = serializers.SerializerMethodField()
     
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_images(self, instance):
+        data = []
+        for image in instance.product_images.all():
+            data.append(image.image.url)
+        
+        return data
 
 class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:

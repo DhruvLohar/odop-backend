@@ -33,7 +33,9 @@ class WorkshopAPIView(ModelViewSet):
         data = request.data.copy()
         data["artisan"] = request.user.id
 
-        serializer = WorkshopCreateSerializer(data=data)
+        serializer = WorkshopCreateSerializer(data=data, context={
+            "workshop_images": request.data.getlist('workshop_images[]')
+        })
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
