@@ -34,7 +34,7 @@ class AuthMixin:
             print(e)
             return False
     
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['GET'], authentication_classes=[])
     def getOTPOnEmail(self, request, pk=None):
         user = self.get_object()
         
@@ -56,7 +56,7 @@ class AuthMixin:
             return ResponseSuccess(message="Email was sent on the specified email")
         return ResponseError(message="Something went wrong sending the email")
     
-    @action(detail=True, methods=['POST'])
+    @action(detail=True, methods=['POST'], authentication_classes=[])
     def verifyOTPOnEmail(self, request, pk=None):
         user = self.get_object()
         entered_otp = request.data.get("otp")
@@ -74,9 +74,11 @@ class AuthMixin:
                 "verified": True,
                 "user": {
                     "id": user.id,
+                    "role": "artisan",
                     "email": user.email,
                     "phone_number": user.phone_number,
                     "name": user.name,
+                    "verified_by_authority": user.verified_by_authority,
                     "profile_image": request.build_absolute_uri(user.profile_image.url) if user.profile_image and request else None,
                     "access_token": user.access_token
                 }
@@ -90,67 +92,56 @@ class AuthMixin:
         try:
             user = Artisan.objects.get(email=email)
             
-            if not user.is_active:
-                return ResponseSuccess(response={
-                    "verified": False,
-                    "artisan": {
-                        "id": user.id
-                    }
-                })
-                
-            if not user.verified_by_authority:
-                return ResponseSuccess(response={
-                    "authority_verified": False,
-                    "artisan": {
-                        "id": user.id,
-                    }
-                })
+            return ResponseSuccess(response={
+                "verified": user.is_active,
+                "id": user.id
+            }, message="User Login Successful")
             
-            accessToken, changeUserToken = user.generateToken()
-            if changeUserToken:
-                user.access_token = accessToken
-                
-            user.last_login = timezone.now()
-            user.save()
+        except Artisan.DoesNotExist:
+            return ResponseError(message="Artisan doesnt exists, please register first.")
+        
+    @action(detail=False, methods=['POST'], authentication_classes=[])
+    def createArtisan(self, request):
+        
+        email = request.data.get("email")
+        
+        try:
+            artisan = Artisan.objects.get(email=email)
+            
+            if not artisan.verified_by_authority:
+                return ResponseSuccess(response={
+                    "id": artisan.id
+                })        
+        
+            return ResponseError("Artisan with that email or phone number already exists.")
+        except Artisan.DoesNotExist as e:
+            artisan = Artisan.objects.create(email=email)
+            artisan.is_active = False
+            artisan.save()
             
             return ResponseSuccess(response={
-                "verified": True,
-                "artisan": {
-                    "id": user.id,
-                    "email": user.email,
-                    "phone_number": user.phone_number,
-                    "name": user.name,
-                    "profile_image": request.build_absolute_uri(user.profile_image.url) if user.profile_image and request else None,
-                    "access_token": user.access_token
-                }
-            }, message="User Login Successful")
-        except Artisan.DoesNotExist:
-            try:
-                with transaction.atomic():
-                    serializer = CreateArtisanSerializer(data=request.data)
-                    
-                    if serializer.is_valid(raise_exception=False):
-                        serializer.save()
-                        
-                        user = Artisan.objects.get(email=serializer.data.get("email"))
-                        user.is_active = False
-                        user.save()
-                    
-                        return ResponseSuccess(response={
-                            "verified": False,
-                            "artisan": {
-                                "id": user.id
-                            }
-                        }, message="Artisan logged in successfully")
-                    
-                    return ResponseError(message="Something went wrong while creating an artisan")
-                    
-            except IntegrityError:
-                return ResponseError(message="artisan with the same 'email' already exists")
-            except UnicodeDecodeError as e:
-                return ResponseError(message="UnicodeDecodeError occurred: " + str(e))
-            except Exception as e:
-                return ResponseError(message="An unexpected error occurred: " + str(e))
+                "id": artisan.id
+            })
+    
+    @action(detail=True, methods=['POST'], authentication_classes=[])
+    def registerArtisan(self, request, pk=None):
+        print(request.data)
+        
+        artisan = self.get_object()
+        serializer = RegisterArtisanSerializer(artisan, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=False):
+            serializer.save()
+            
+            return ResponseSuccess(
+                response={
+                    "artisan": serializer.data
+                },
+                message="Artisan registered successfully"
+            )
+        
+        print(serializer.errors)
+        return ResponseError(message="something went wrong")
     
 
 class ArtisanAPIView(
@@ -161,11 +152,9 @@ class ArtisanAPIView(
     queryset = Artisan.objects.all()
     serializer_class = ArtisanSerializer
     authentication_classes = [CookieAuthentication]
-
-    # def get_authenticators(self):
-    #     if self.action == 'create':
-    #         return []
-    #     return super().get_authenticators()
+    
+    def create(self, request, *args, **kwargs):
+        return ResponseSuccess(message="not implemented")
 
     def perform_destroy(self, instance):
         instance.is_active = False

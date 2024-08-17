@@ -23,7 +23,8 @@ class BaseUser(AbstractBaseUser, models.Model):
     phone_number = models.CharField(
         max_length=15,  # Adjust length as needed
         unique=True,
-        validators=[validate_phone_number]
+        validators=[validate_phone_number],
+        null=True, blank=True
     )
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,7 +32,7 @@ class BaseUser(AbstractBaseUser, models.Model):
     last_login = models.DateTimeField(blank=True, null=True)
     
     is_active = models.BooleanField(
-        default=True,
+        default=False,
         help_text="Designates whether this user should be treated as active."
     )
     
@@ -44,8 +45,8 @@ class BaseUser(AbstractBaseUser, models.Model):
     REQUIRED_FIELDS = ['name', 'phone_number']
     
     class Meta:
-        verbose_name = "Admin User"
-        verbose_name_plural = "Admin Users"
+        verbose_name = "Base User"
+        verbose_name_plural = "Base Users"
 
     def generateToken(self):
         """

@@ -33,7 +33,7 @@ class AuthMixin:
             print(e)
             return False
     
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['GET'], authentication_classes=[])
     def getOTPOnEmail(self, request, pk=None):
         user = self.get_object()
         
@@ -55,9 +55,10 @@ class AuthMixin:
             return ResponseSuccess(message="Email was sent on the specified email")
         return ResponseError(message="Something went wrong sending the email")
     
-    @action(detail=True, methods=['POST'])
+    @action(detail=True, methods=['POST'], authentication_classes=[])
     def verifyOTPOnEmail(self, request, pk=None):
         user = self.get_object()
+        print(user)
         entered_otp = request.data.get("otp")
         
         if user.valid_otp == entered_otp:
@@ -73,6 +74,7 @@ class AuthMixin:
                 "verified": True,
                 "user": {
                     "id": user.id,
+                    "role": "user",
                     "email": user.email,
                     "phone_number": user.phone_number,
                     "name": user.name,
@@ -89,31 +91,9 @@ class AuthMixin:
         try:
             user = User.objects.get(email=email)
             
-            if not user.is_active:
-                return ResponseSuccess(response={
-                    "verified": False,
-                    "user": {
-                        "id": user.id
-                    }
-                })
-            
-            accessToken, changeUserToken = user.generateToken()
-            if changeUserToken:
-                user.access_token = accessToken
-                
-            user.last_login = timezone.now()
-            user.save()
-            
             return ResponseSuccess(response={
-                "verified": True,
-                "user": {
-                    "id": user.id,
-                    "email": user.email,
-                    "phone_number": user.phone_number,
-                    "name": user.name,
-                    "profile_image": request.build_absolute_uri(user.profile_image.url) if user.profile_image and request else None,
-                    "access_token": user.access_token
-                }
+                "verified": user.is_active,
+                "id": user.id,
             }, message="User Login Successful")
         except User.DoesNotExist:
             try:
@@ -133,6 +113,9 @@ class AuthMixin:
                                 "id": user.id
                             }
                         }, message="User logged in successfully")
+                    
+                    if serializer.errors.get("email"):
+                        return ResponseError(message="User with the same 'email' already exists")    
                     
                     return ResponseSuccess({
                             "error": serializer.errors

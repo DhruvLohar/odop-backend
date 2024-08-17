@@ -19,12 +19,29 @@ class UpdateArtisanSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'phone_number', 'profile_image',
         )
-
-class CreateArtisanSerializer(serializers.ModelSerializer):
+        
+class RegisterArtisanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artisan
         fields = [
             'name', 'email', 'phone_number', 'gender', 'age',
             'state', 'district', 'address', 'postal_code',
-            # 'aadhar_image', 'pan_image' 
+            'aadhar_image', 'pan_image' 
         ]
+    
+    def create(self, validated_data):
+        artisan: Artisan = super().create(validated_data)
+        
+        artisan.is_active = True
+        artisan.verified_by_authority = True
+        artisan.save()
+        
+        return artisan
+    
+    def update(self, instance, validated_data):
+        artisan: Artisan = super().update(instance, validated_data)
+        
+        artisan.verified_by_authority = True
+        artisan.save()
+        
+        return artisan
