@@ -202,3 +202,19 @@ class ArtisanAPIView(
         return ResponseSuccess({
             "products": serializer.data
         })
+        
+    @action(detail=True, methods=['GET'])
+    def getAllOrders(self, request, pk=None):
+        artisan = self.get_object()
+        
+        
+        artisan_products = [x.id for x in artisan.listed_products.all()]
+        line_items = OrderLineItem.objects.filter(product__id__in=artisan_products)
+        
+        artisan_orders = [x.order for x in line_items]
+        
+        serializer = OrderSerializer(artisan_orders, many=True)
+        
+        return ResponseSuccess(response={
+            "orders": serializer.data
+        })

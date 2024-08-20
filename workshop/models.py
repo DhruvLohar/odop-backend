@@ -17,7 +17,7 @@ class Workshop(models.Model):
     workshop_level = models.CharField(choices=WORKSHOP_LEVEL, max_length=50)
     tags = models.JSONField(default=list)
     
-    organized_by = models.CharField(max_length=200)
+    organized_by = models.CharField(max_length=200, null=True, blank=True)
     conducted_by_artisan = models.BooleanField(default=False)
     artisan = models.ForeignKey("artisan.Artisan", related_name="conducted_workshops", on_delete=models.PROTECT)
     price = models.PositiveIntegerField()

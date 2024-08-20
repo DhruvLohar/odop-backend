@@ -23,25 +23,35 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
+class NoValidationListField(serializers.ListField):
+    def to_internal_value(self, data):
+        # Bypass default validation and directly return the data
+        return data
 
 class WorkshopCreateSerializer(serializers.ModelSerializer):
+    tags = NoValidationListField(child=serializers.CharField(), required=False)
+    
     class Meta:
         model = Workshop
-        fields = ['title', 'description', 'address', 'date', 'workshop_level', 'tags', 'organized_by', 'conducted_by_artisan', 'artisan', 'price']
+        fields = ['title', 'description', 'address', 'date', 'workshop_level', 'tags', 'conducted_by_artisan', 'artisan', 'price', 'is_active']
 
-class EventCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event
-        fields = ['title', 'description', 'address', 'date', 'tags']
-        
     def create(self, validated_data):
         workshop = super().create(validated_data)
-
+        
         workshop_images = self.context.get("workshop_images")
+        tags = self.context.get("tags")
+        
+        workshop.tags = tags
+        workshop.save()
         
         for imageObj in workshop_images:
             image = WorkshopImage.objects.create(workshop=workshop, image=imageObj)
             image.save()
         
         return workshop
+
+class EventCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['title', 'description', 'address', 'date', 'tags']
 

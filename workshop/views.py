@@ -32,16 +32,27 @@ class WorkshopAPIView(ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         data["artisan"] = request.user.id
+        data["conducted_by_artisan"] = True
+        
+        tags = []
+
+        if "tags" in data and isinstance(data["tags"], str):
+            tags = [tag.strip() for tag in data["tags"].split(",")]
+            
 
         serializer = WorkshopCreateSerializer(data=data, context={
-            "workshop_images": request.data.getlist('workshop_images[]')
+            "workshop_images": request.data.getlist('workshop_images[]'),
+            "tags": tags 
         })
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        if serializer.is_valid(raise_exception=False):
+            self.perform_create(serializer)
 
-        return ResponseSuccess(response={
-            "workshop": serializer.data
-        }, message="Workshop has been created")
+            return ResponseSuccess(response={
+                "workshop": serializer.data
+            }, message="Workshop has been created")
+            
+        print(serializer.errors)
+        return ResponseError("something went wrong")
 
     def list(self, request, *args, **kwargs):
         queryset = Workshop.objects.filter(is_active=True)
