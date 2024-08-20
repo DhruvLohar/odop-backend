@@ -67,7 +67,7 @@ class RentalMachineAdmin(admin.ModelAdmin):
     # Fieldsets to group fields in the admin form
     fieldsets = (
         (None, {
-            'fields': ('artisan', 'title', 'description', 'starting_time', 'ending_time')
+            'fields': ('artisan', 'title', 'description', 'starting_time', 'ending_time', 'rate',)
         }),
         ('Status', {
             'fields': ('is_active',),

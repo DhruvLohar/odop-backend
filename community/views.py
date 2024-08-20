@@ -89,19 +89,23 @@ class RentalMachineAPIView(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
+        
         data = request.data.copy()
         data["artisan"] = request.user.id
+        print(data)
 
         serializer = RentalMachineCreateSerializer(data=data, context={
             "machine_images": request.data.getlist('machine_images[]')
         })
-        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid(raise_exception=False):
+            self.perform_create(serializer)
 
-        self.perform_create(serializer)
-
-        return ResponseSuccess(response={
-            "rental_machine": serializer.data
-        }, message="Rental machine has been created")
+            return ResponseSuccess(response={
+                "rental_machine": serializer.data
+            }, message="Rental machine has been created")
+        
+        print(serializer.errors, serializer.error_messages)
+        return ResponseError("something went wrong")
     
     def list(self, request, *args, **kwargs):
         queryset = RentalMachine.objects.filter(is_active=True)

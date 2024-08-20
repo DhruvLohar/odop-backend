@@ -42,9 +42,10 @@ class RentalMachine(models.Model):
     
     title = models.CharField(max_length=200)
     description = models.TextField()
+    rate = models.PositiveIntegerField(default=50) # per hour
     
     starting_time = models.TimeField() 
-    ending_time = models.TimeField()  
+    ending_time = models.TimeField() 
     
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

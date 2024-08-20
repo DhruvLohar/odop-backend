@@ -36,12 +36,12 @@ class RentalMachineBookingRequestSerializer(serializers.ModelSerializer):
 class JobPostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobPost
-        fields = ['artisan', 'title', 'description', 'vacancy', 'prerequisites']
+        fields = ['artisan', 'title', 'description', 'vacancy', 'prerequisites', 'is_active']
 
 class RentalMachineCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RentalMachine
-        fields = ['artisan', 'title', 'description', 'starting_time', 'ending_time']
+        fields = ['artisan', 'title', 'description', 'starting_time', 'ending_time', 'is_active', 'rate']
     
     def validate(self, data):
         if data['starting_time'] >= data['ending_time']:
