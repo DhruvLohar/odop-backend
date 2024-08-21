@@ -26,7 +26,7 @@ class Order(models.Model):
 
     shipping_address = models.TextField()
     payment_mode = models.CharField(choices=PAYMENT_MODE, max_length=15)
-
+    
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     

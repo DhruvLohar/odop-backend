@@ -10,8 +10,8 @@ from django.template.loader import render_to_string
 
 from .models import User
 from .serializers import *
-
-from order.serializers import OrderSerializer
+from order.models import *
+from order.serializers import *
 from services.views import NormalServicesMixin
 
 from odop_backend import settings
@@ -173,3 +173,38 @@ class UserAPIView(
         return ResponseSuccess({
             "orders": serializer.data
         })
+    
+    # @action(detail=True, methods=['POST'])
+    # def placeOrder(self, request, pk=None):
+    #     user = self.get_object()
+    #     order_data = request.data.get('order')
+    #     serializer = OrderCreateSerializer(data=order_data)
+    #     serializer.is_valid(raise_exception=True)
+    #     order = serializer.save(user=user)
+    #     line_items = order_data.get('line_items', [])
+    #     for item in line_items:
+    #         OrderLineItem.objects.create(
+    #             order=order,
+    #             product_id=item.get('product_id'),
+    #             quantity=item.get('quantity'),
+    #             price=item.get('price')
+    #         )
+
+    #     return ResponseSuccess({
+    #         "order": OrderSerializer(order).data
+    #     }, message="Order placed successfully")
+
+    # @action(detail=True, methods=['POST'])
+    # def getOrdersDetails(self, request, pk=None):
+    #     order_id = request.data.get("order_id")
+    #     user = self.get_object()
+    #     try:
+    #         order = Order.objects.filter(user=user).get(id=order_id)
+    #         serializer = OrderSerializer(order)
+    #         return ResponseSuccess({
+    #             "order": serializer.data
+    #         })
+    #     except Order.DoesNotExist:
+    #         return ResponseError(message="Order not found or you are not authorized to view this order")
+         
+   
