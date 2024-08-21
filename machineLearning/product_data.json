@@ -1,0 +1,422 @@
+[
+  {
+    "artisan": {
+      "id": 15,
+      "name": "Meera Kapoor",
+      "phone_number": "9876543230",
+      "profile_image": "https://example.com/profile15.jpg"
+    },
+    "back_story": "Expertly woven by artisans with a deep understanding of traditional techniques.",
+    "cancelled_at": null,
+    "category": "Textiles",
+    "created_at": "2024-07-15T10:00:00Z",
+    "description": "Beautifully handwoven cotton fabric with traditional patterns.",
+    "dimensions": {
+      "h": 5,
+      "l": 6
+    },
+    "id": 201,
+    "images": [
+      "https://example.com/product15a.jpg",
+      "https://example.com/product15b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2024-07-17T14:00:00Z",
+    "price": 30.0,
+    "product_details": {
+      "fabric": "Cotton",
+      "color": "Blue"
+    },
+    "quantity": 50,
+    "raw_material": "Cotton",
+    "restock_date": null,
+    "tax_percent": 5,
+    "title": "Handwoven Cotton Fabric"
+  },
+  {
+    "artisan": {
+      "id": 16,
+      "name": "Ravi Singh",
+      "phone_number": "9876543231",
+      "profile_image": "https://example.com/profile16.jpg"
+    },
+    "back_story": "Crafted with the finest clay, following traditional pottery methods.",
+    "cancelled_at": null,
+    "category": "Pottery",
+    "created_at": "2024-08-10T11:00:00Z",
+    "description": "Rustic earthen mug, ideal for hot beverages.",
+    "dimensions": {
+      "h": 4,
+      "l": 3
+    },
+    "id": 202,
+    "images": [
+      "https://example.com/product16a.jpg",
+      "https://example.com/product16b.jpg"
+    ],
+    "is_customizable": true,
+    "is_verified": true,
+    "modified_at": "2024-08-12T16:00:00Z",
+    "price": 8.0,
+    "product_details": {
+      "capacity": "250ml",
+      "color": "Terracotta"
+    },
+    "quantity": 100,
+    "raw_material": "Clay",
+    "restock_date": null,
+    "tax_percent": 5,
+    "title": "Rustic Earthen Mug"
+  },
+  {
+    "artisan": {
+      "id": 17,
+      "name": "Kiran Patel",
+      "phone_number": "9876543232",
+      "profile_image": "https://example.com/profile17.jpg"
+    },
+    "back_story": "A perfect blend of craftsmanship and durability.",
+    "cancelled_at": null,
+    "category": "Footwear",
+    "created_at": "2024-09-05T09:00:00Z",
+    "description": "Comfortable and durable leather shoes for daily wear.",
+    "dimensions": {
+      "h": 5,
+      "l": 12
+    },
+    "id": 203,
+    "images": [
+      "https://example.com/product17a.jpg",
+      "https://example.com/product17b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2024-09-07T12:00:00Z",
+    "price": 55.0,
+    "product_details": {
+      "size": "9",
+      "color": "Brown"
+    },
+    "quantity": 60,
+    "raw_material": "Leather",
+    "restock_date": null,
+    "tax_percent": 10,
+    "title": "Durable Leather Shoes"
+  },
+  {
+    "artisan": {
+      "id": 18,
+      "name": "Shalini Rao",
+      "phone_number": "9876543233",
+      "profile_image": "https://example.com/profile18.jpg"
+    },
+    "back_story": "Crafted with precision to bring out the best in gold.",
+    "cancelled_at": null,
+    "category": "Jewelry",
+    "created_at": "2024-10-15T14:00:00Z",
+    "description": "Elegant gold earrings with intricate design.",
+    "dimensions": {
+      "h": 1,
+      "l": 1.5
+    },
+    "id": 204,
+    "images": [
+      "https://example.com/product18a.jpg",
+      "https://example.com/product18b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2024-10-18T16:00:00Z",
+    "price": 250.0,
+    "product_details": {
+      "karat": "18K",
+      "weight": "20g"
+    },
+    "quantity": 30,
+    "raw_material": "Gold",
+    "restock_date": null,
+    "tax_percent": 3,
+    "title": "Elegant Gold Earrings"
+  },
+  {
+    "artisan": {
+      "id": 19,
+      "name": "Vishal Mehta",
+      "phone_number": "9876543234",
+      "profile_image": "https://example.com/profile19.jpg"
+    },
+    "back_story": "Handcrafted by skilled artisans using traditional methods.",
+    "cancelled_at": null,
+    "category": "Home Decor",
+    "created_at": "2024-11-25T08:00:00Z",
+    "description": "Beautifully carved wooden jewelry box.",
+    "dimensions": {
+      "h": 4,
+      "l": 6
+    },
+    "id": 205,
+    "images": [
+      "https://example.com/product19a.jpg",
+      "https://example.com/product19b.jpg"
+    ],
+    "is_customizable": true,
+    "is_verified": true,
+    "modified_at": "2024-11-27T12:00:00Z",
+    "price": 40.0,
+    "product_details": {
+      "material": "Teak Wood",
+      "color": "Brown"
+    },
+    "quantity": 25,
+    "raw_material": "Wood",
+    "restock_date": null,
+    "tax_percent": 8,
+    "title": "Carved Wooden Jewelry Box"
+  },
+  {
+    "artisan": {
+      "id": 20,
+      "name": "Sunil Sharma",
+      "phone_number": "9876543235",
+      "profile_image": "https://example.com/profile20.jpg"
+    },
+    "back_story": "Made from the finest silver, with a touch of elegance.",
+    "cancelled_at": null,
+    "category": "Jewelry",
+    "created_at": "2024-12-05T10:00:00Z",
+    "description": "Delicate silver bracelet with a modern design.",
+    "dimensions": {
+      "h": 0.5,
+      "l": 7
+    },
+    "id": 206,
+    "images": [
+      "https://example.com/product20a.jpg",
+      "https://example.com/product20b.jpg"
+    ],
+    "is_customizable": true,
+    "is_verified": true,
+    "modified_at": "2024-12-07T14:00:00Z",
+    "price": 120.0,
+    "product_details": {
+      "material": "Sterling Silver",
+      "weight": "15g"
+    },
+    "quantity": 50,
+    "raw_material": "Silver",
+    "restock_date": null,
+    "tax_percent": 6,
+    "title": "Modern Silver Bracelet"
+  },
+  {
+    "artisan": {
+      "id": 21,
+      "name": "Nisha Gupta",
+      "phone_number": "9876543236",
+      "profile_image": "https://example.com/profile21.jpg"
+    },
+    "back_story": "Crafted with care to bring out the best in spices.",
+    "cancelled_at": null,
+    "category": "Spices",
+    "created_at": "2025-01-15T09:00:00Z",
+    "description": "Organic black pepper, freshly ground.",
+    "dimensions": {
+      "h": 3,
+      "l": 6
+    },
+    "id": 207,
+    "images": [
+      "https://example.com/product21a.jpg",
+      "https://example.com/product21b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2025-01-17T12:00:00Z",
+    "price": 7.0,
+    "product_details": {
+      "weight": "100g",
+      "origin": "Kerala"
+    },
+    "quantity": 150,
+    "raw_material": "Spices",
+    "restock_date": null,
+    "tax_percent": 2,
+    "title": "Organic Black Pepper"
+  },
+  {
+    "artisan": {
+      "id": 22,
+      "name": "Ajay Desai",
+      "phone_number": "9876543237",
+      "profile_image": "https://example.com/profile22.jpg"
+    },
+    "back_story": "Made with traditional techniques passed down generations.",
+    "cancelled_at": null,
+    "category": "Textiles",
+    "created_at": "2025-02-20T10:00:00Z",
+    "description": "Luxurious silk saree with gold zari work.",
+    "dimensions": {
+      "h": 6,
+      "l": 10
+    },
+    "id": 208,
+    "images": [
+      "https://example.com/product22a.jpg",
+      "https://example.com/product22b.jpg"
+    ],
+    "is_customizable": true,
+    "is_verified": true,
+    "modified_at": "2025-02-22T14:00:00Z",
+    "price": 300.0,
+    "product_details": {
+      "fabric": "Silk",
+      "color": "Red"
+    },
+    "quantity": 40,
+    "raw_material": "Silk",
+    "restock_date": null,
+    "tax_percent": 8,
+    "title": "Silk Saree with Gold Zari"
+  },
+  {
+    "artisan": {
+      "id": 23,
+      "name": "Priya Joshi",
+      "phone_number": "9876543238",
+      "profile_image": "https://example.com/profile23.jpg"
+    },
+    "back_story": "Designed to perfection with a focus on durability and comfort.",
+    "cancelled_at": null,
+    "category": "Footwear",
+    "created_at": "2025-03-10T11:00:00Z",
+    "description": "Stylish jute sandals with cushioned sole.",
+    "dimensions": {
+      "h": 2,
+      "l": 10
+    },
+    "id": 209,
+    "images": [
+      "https://example.com/product23a.jpg",
+      "https://example.com/product23b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2025-03-12T16:00:00Z",
+    "price": 35.0,
+    "product_details": {
+      "material": "Jute",
+      "size": "8"
+    },
+    "quantity": 60,
+    "raw_material": "Jute",
+    "restock_date": null,
+    "tax_percent": 7,
+    "title": "Jute Sandals"
+  },
+  {
+    "artisan": {
+      "id": 24,
+      "name": "Rohit Kumar",
+      "phone_number": "9876543239",
+      "profile_image": "https://example.com/profile24.jpg"
+    },
+    "back_story": "Handcrafted with a perfect blend of tradition and modernity.",
+    "cancelled_at": null,
+    "category": "Textiles",
+    "created_at": "2025-04-15T08:00:00Z",
+    "description": "Soft and warm woolen blanket, perfect for winter.",
+    "dimensions": {
+      "h": 5,
+      "l": 8
+    },
+    "id": 210,
+    "images": [
+      "https://example.com/product24a.jpg",
+      "https://example.com/product24b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2025-04-17T12:00:00Z",
+    "price": 80.0,
+    "product_details": {
+      "material": "Wool",
+      "color": "Gray"
+    },
+    "quantity": 45,
+    "raw_material": "Wool",
+    "restock_date": null,
+    "tax_percent": 10,
+    "title": "Woolen Blanket"
+  },
+  {
+    "artisan": {
+      "id": 25,
+      "name": "Suman Chatterjee",
+      "phone_number": "9876543240",
+      "profile_image": "https://example.com/profile25.jpg"
+    },
+    "back_story": "Crafted with a dedication to quality and attention to detail.",
+    "cancelled_at": null,
+    "category": "Spices",
+    "created_at": "2025-05-20T09:00:00Z",
+    "description": "Freshly ground red chili powder, full of flavor.",
+    "dimensions": {
+      "h": 3,
+      "l": 6
+    },
+    "id": 211,
+    "images": [
+      "https://example.com/product25a.jpg",
+      "https://example.com/product25b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2025-05-22T12:00:00Z",
+    "price": 5.0,
+    "product_details": {
+      "weight": "100g",
+      "origin": "Rajasthan"
+    },
+    "quantity": 120,
+    "raw_material": "Chilli",
+    "restock_date": null,
+    "tax_percent": 3,
+    "title": "Red Chili Powder"
+  },
+  {
+    "artisan": {
+      "id": 26,
+      "name": "Ashok Reddy",
+      "phone_number": "9876543241",
+      "profile_image": "https://example.com/profile26.jpg"
+    },
+    "back_story": "Grown organically and processed with care.",
+    "cancelled_at": null,
+    "category": "Food",
+    "created_at": "2025-06-10T10:00:00Z",
+    "description": "Premium quality groundnuts, perfect for snacking.",
+    "dimensions": {
+      "h": 4,
+      "l": 6
+    },
+    "id": 212,
+    "images": [
+      "https://example.com/product26a.jpg",
+      "https://example.com/product26b.jpg"
+    ],
+    "is_customizable": false,
+    "is_verified": true,
+    "modified_at": "2025-06-12T14:00:00Z",
+    "price": 12.0,
+    "product_details": {
+      "weight": "200g",
+      "origin": "Gujarat"
+    },
+    "quantity": 200,
+    "raw_material": "Groundnut",
+    "restock_date": null,
+    "tax_percent": 5,
+    "title": "Organic Groundnuts"
+  }
+]
