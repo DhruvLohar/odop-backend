@@ -218,3 +218,32 @@ class ArtisanAPIView(
         return ResponseSuccess(response={
             "orders": serializer.data
         })
+    
+    @action(detail=True, methods=['POST'])
+    def getOrderDetails(self, request, pk=None):
+        order_id = request.data.get("order_id")
+        artisan = self.get_object()
+        order = Order.objects.filter(related_line_items__product__artisan=artisan).get(id=order_id)
+        serializer = OrderSerializer(order)
+        return ResponseSuccess(response={"order": serializer.data})
+        
+    @action(detail=True, methods =['POST'])
+    def updateOrderDetails(self, request, pk= None):
+        artisan = self.get_object()  
+        order_id = request.data.get("order_id")
+        payment_status = request.data.get("payment_status")
+        estimated_delivery_time = request.data.get("estimated_delivery_time")
+        order = Order.objects.filter(related_line_items__product__artisan=artisan).get(id=order_id)
+        if payment_status == 'RFI':
+                    return Response({
+                        "error": "Cannot update status to Refund Initiated (RFI)"
+                    }, status=status.HTTP_400_BAD_REQUEST)
+        for line_item in order.related_line_items.all():
+                if payment_status:
+                    line_item.status = payment_status
+                if estimated_delivery_time is not None:
+                    line_item.estimate_delivery_time = estimated_delivery_time
+                line_item.save()
+
+        return ResponseSuccess(message="Order details updated successfully")
+    
