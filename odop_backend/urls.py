@@ -24,6 +24,7 @@ from product.urls import router as pr
 from order.urls import router as ordr
 from workshop.urls import workshopRouter, eventRouter 
 from community.urls import jobRouter, machineRouter
+from forum.urls import router as fr
 
 from django.shortcuts import render
 def view(request):
@@ -37,6 +38,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     path("view/", view),
+    
+    path('forum/', include(fr.urls)),
     
     path('user/', include(ur.urls)),
     path('artisan/', include(ar.urls)),

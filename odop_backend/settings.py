@@ -63,6 +63,9 @@ CORS_ALLOW_HEADERS = [
     'accesstoken',
 ]
 
+# WSGI_APPLICATION = 'odop_backend.wsgi.application'
+ASGI_APPLICATION = 'odop_backend.asgi.application'
+
 # JWT AUTH CONFIG
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
@@ -92,9 +95,18 @@ else:
         "rest_framework.renderers.JSONRenderer",
     )
 
+# CHANNELS CONFIG
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.InMemoryChannelLayer',
+    },
+}
+
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,6 +120,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'artisan.apps.ArtisanConfig',
     'services.apps.ServicesConfig',
+    
+    'forum.apps.ForumConfig',
     
     'product.apps.ProductConfig',
     'order.apps.OrderConfig',
@@ -147,7 +161,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'odop_backend.wsgi.application'
+# WSGI_APPLICATION = 'odop_backend.wsgi.application'
+ASGI_APPLICATION = 'odop_backend.asgi.application'
 
 
 # Database
