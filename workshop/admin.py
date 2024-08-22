@@ -1,7 +1,12 @@
 from django.contrib import admin
 from .models import Workshop, Event
 
+from services.admin import WorkshopImageInline
+
 class WorkshopAdmin(admin.ModelAdmin):
+    
+    inlines = [WorkshopImageInline]
+    
     # Fieldsets to group fields in the admin form
     fieldsets = (
         (None, {

@@ -7,6 +7,7 @@ class Artisan(BaseUser):
     
     age = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER)
+    about_me = models.TextField()
     
     address = models.TextField(null=True, blank=True)
     district = models.CharField(max_length=100, null=True, blank=True)

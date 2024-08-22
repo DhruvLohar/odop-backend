@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import *
 
+from services.admin import *
+
 class JobPostAdmin(admin.ModelAdmin):
     # Fieldsets to group fields in the admin form
     fieldsets = (
@@ -64,6 +66,9 @@ class JobPostApplicationRequestAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at',)
 
 class RentalMachineAdmin(admin.ModelAdmin):
+    
+    inlines = [RentalMachineImageInline]
+    
     # Fieldsets to group fields in the admin form
     fieldsets = (
         (None, {

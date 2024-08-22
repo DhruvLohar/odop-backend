@@ -35,12 +35,10 @@ class Forum(models.Model):
         msg_payload = dict(
             type=type,
             sender_id=sender, # artisan
-            content=message, 
+            content=message,
+            object_id=object_id,
             time=timezone.now().strftime("%H:%M")
         )
-        
-        if object_id:
-            msg_payload.update({"object_id": object_id})
         
         self.messages.append(msg_payload)
         self.save()

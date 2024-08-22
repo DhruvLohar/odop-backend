@@ -16,7 +16,7 @@ class ArtisanAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('id', 'is_active', 'verified_by_authority', 'valid_otp',)}),
         ('Personal Information', {
-            'fields': ('profile_image', 'name', 'phone_number', 'email', 'gender', 'age',)
+            'fields': ('profile_image', 'name', 'phone_number', 'email', 'gender', 'age', 'about_me',)
         }),
         ('Address', {
             'fields': ('address', 'district', 'state', 'postal_code',)

@@ -2,8 +2,6 @@ from random import randint
 from rest_framework.viewsets import ModelViewSet
 from django.utils import timezone
 from rest_framework.decorators import action
-from django.db import transaction
-from django.db.utils import IntegrityError
 from django.core.mail import EmailMultiAlternatives
 from django.utils import html
 from django.template.loader import render_to_string
@@ -11,6 +9,7 @@ from django.template.loader import render_to_string
 from .models import Artisan
 from .serializers import *
 from order.models import OrderLineItem
+from workshop.serializers import WorkshopSerializer
 from product.serializers import *
 from order.serializers import *
 from services.views import ArtisanServicesMixin
@@ -155,6 +154,22 @@ class ArtisanAPIView(
     
     def create(self, request, *args, **kwargs):
         return ResponseSuccess(message="not implemented")
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        
+        products = instance.listed_products.all()
+        products_serializer = ProductSerializer(products, many=True)
+        
+        workshops = instance.conducted_workshops.all()
+        workshop_serializer = WorkshopSerializer(workshops, many=True)
+        
+        return ResponseSuccess({
+            "profile": serializer.data,
+            "products": products_serializer.data,
+            "workshops": workshop_serializer.data
+        })
 
     def perform_destroy(self, instance):
         instance.is_active = False

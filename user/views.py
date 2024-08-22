@@ -145,6 +145,14 @@ class UserAPIView(
     #         return []
     #     return super().get_authenticators()
     
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        
+        return ResponseSuccess({
+            "profile": serializer.data
+        })
+    
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 

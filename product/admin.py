@@ -1,8 +1,13 @@
 from django.contrib import admin
 from .models import *
 
+from services.admin import ProductImageInline
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    
+    inlines = [ProductImageInline]
+    
     # Define fieldsets for the admin form layout
     fieldsets = (
         (None, {

@@ -12,3 +12,20 @@ class NotificationAdmin(admin.ModelAdmin):
 @admin.register(OrderReview)
 class OrderReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'star_rating', 'comment',)
+    
+
+class RentalMachineImageInline(admin.TabularInline):
+    model = RentalMachineImage
+    extra = 1  # Number of extra blank forms to display
+    fields = ['image']
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1  # Number of extra blank forms to display
+    fields = ['image']
+    
+class WorkshopImageInline(admin.TabularInline):
+    model = WorkshopImage
+    extra = 1  # Number of extra blank forms to display
+    fields = ['image']

@@ -1,5 +1,4 @@
-from .models import ChatSession
-
+from .models import Forum
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -8,14 +7,14 @@ from channels.db import database_sync_to_async
 
 class ForumConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
-        self.forum_id = self.scope['url_route']['kwargs']['forum_id']
+        self.slug = self.scope['url_route']['kwargs']['slug']
         
-        if not hasattr(self, 'session_instance'):
-            self.session_instance = await database_sync_to_async(ChatSession.objects.get)(session_key=self.session_id)
+        if not hasattr(self, 'forum_instance'):
+            self.forum_instance = await database_sync_to_async(Forum.objects.get)(slug=self.slug)
 
 
         await self.channel_layer.group_add(
-            self.session_id,
+            self.slug,
             self.channel_name
         )
 
@@ -23,22 +22,18 @@ class ForumConsumer(AsyncJsonWebsocketConsumer):
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
-            self.session_id,
+            self.slug,
             self.channel_name
         )
 
     @database_sync_to_async
-    def get_connected_users_count(self):
-        channel_layer = get_channel_layer()
-        group_channels = async_to_sync(channel_layer.group_channels)('online_users')
-        return len(group_channels)
-
-    @database_sync_to_async
     def save_messages(self, payload):
         try:
-            self.session_instance.addMessage(
+            self.forum_instance.addMessage(
                 sender=payload.get('uid'), 
-                message=payload.get('message')
+                type=payload.get('msg_type'),
+                message=payload.get('message'),
+                object_id=payload.get('object_id')
             )
         except Exception as err:
             pass
@@ -46,15 +41,20 @@ class ForumConsumer(AsyncJsonWebsocketConsumer):
     async def receive_json(self, content, **kwargs):
         uid = content.get("uid")
         message = content.get("message")
+        msg_type = content.get("msg_type")
+        object_id = content.get("object_id")
 
         await self.save_messages(content)
 
         await self.channel_layer.group_send(
-            self.session_id,
+            self.slug,
             {
                 'type': 'boardcast_in_session',
                 'channelID': self.channel_name,
+                
+                'msg_type': msg_type,
                 'uid': uid,
+                'object_id': object_id,
                 'message': message
             }
         )
@@ -62,6 +62,8 @@ class ForumConsumer(AsyncJsonWebsocketConsumer):
     async def boardcast_in_session(self, event):
         uid = event['uid']
         message = event['message']
+        msg_type = event["msg_type"]
+        object_id = event.get("object_id")
 
         is_same_user = self.channel_name == event['channelID']
 
@@ -69,5 +71,6 @@ class ForumConsumer(AsyncJsonWebsocketConsumer):
             await self.send_json({
                 'uid': uid,
                 'message': message,
-                'users_online': self.channel_layer.receive_count
+                'msg_type': msg_type,
+                'object_id': object_id,
             })

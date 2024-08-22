@@ -35,7 +35,11 @@ class ArtisanServicesMixin:
         
         # resp = get_chatbot_response(prompt)
         
-        return ResponseSuccess(message=resp)
+        return ResponseSuccess({
+            "type": "response",
+            "content": "Blah blah blah",
+            "payload": []
+        })
     
     @action(detail=False, methods=['POST'])
     def verifyDocuments(self, request):

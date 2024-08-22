@@ -19,16 +19,17 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 
+from forum.routing import websocket_urlpatterns as forumRoutes
 # from messenger.routing import websocket_urlpatterns as messengerWebsocketUrls
 # from rider.routing import websocket_urlpatterns as riderWebsokcetUrls
 
-# websockets_urls = messengerWebsocketUrls + riderWebsokcetUrls
+websockets_urls = forumRoutes
 
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
         "websocket": AllowedHostsOriginValidator(
-            AuthMiddlewareStack(URLRouter([]))
+            AuthMiddlewareStack(URLRouter(websockets_urls))
         ),
     }
 )

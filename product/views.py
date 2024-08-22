@@ -35,9 +35,12 @@ class ProductAPIView(ModelViewSet):
             "product_images": request.data.getlist('product_images[]')
         })
         
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        if serializer.is_valid(raise_exception=False):
+            
+            self.perform_create(serializer)
         
-        return ResponseSuccess(response={
-            "product": serializer.data
-        })
+            return ResponseSuccess(response={
+                "product": serializer.data
+            })
+
+        return ResponseError(message="Something went wrong")

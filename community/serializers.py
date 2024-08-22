@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from .models import *
 
+from artisan.serializers import ArtisanSerializer
 from services.models import RentalMachineImage
 
 class JobPostSerializer(serializers.ModelSerializer):
+    artisan = ArtisanSerializer()
+    
     class Meta:
         model = JobPost
         fields = '__all__'
@@ -16,6 +19,7 @@ class JobPostApplicationRequestSerializer(serializers.ModelSerializer):
 class RentalMachineSerializer(serializers.ModelSerializer):
     
     images = serializers.SerializerMethodField()
+    artisan = ArtisanSerializer()
     
     class Meta:
         model = RentalMachine
@@ -34,11 +38,15 @@ class RentalMachineBookingRequestSerializer(serializers.ModelSerializer):
 
 
 class JobPostCreateSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = JobPost
         fields = ['artisan', 'title', 'description', 'vacancy', 'prerequisites', 'is_active']
 
 class RentalMachineCreateSerializer(serializers.ModelSerializer):
+    
+    artisan = ArtisanSerializer()
+    
     class Meta:
         model = RentalMachine
         fields = ['artisan', 'title', 'description', 'starting_time', 'ending_time', 'is_active', 'rate']

@@ -2,9 +2,12 @@ from rest_framework import serializers
 from .models import *
 from services.models import WorkshopImage
 
+from artisan.serializers import ArtisanSerializer
+
 class WorkshopSerializer(serializers.ModelSerializer):
     
     images = serializers.SerializerMethodField()
+    artisan = ArtisanSerializer()
     
     class Meta:
         model = Workshop
@@ -19,6 +22,8 @@ class WorkshopSerializer(serializers.ModelSerializer):
         return data
 
 class EventSerializer(serializers.ModelSerializer):
+    artisan = ArtisanSerializer()
+        
     class Meta:
         model = Event
         fields = '__all__'

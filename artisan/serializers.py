@@ -7,7 +7,7 @@ class ArtisanSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Artisan
-        fields = ('id', 'name', 'phone_number', 'profile_image',)
+        fields = ('id', 'name', 'phone_number', 'profile_image', 'state', 'district', 'about_me',)
         
     def get_profile_image(self, instance):
         request = self.context.get("request")
