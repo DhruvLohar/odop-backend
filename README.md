@@ -1,7 +1,11 @@
 # odop-backend
 
-Built using django and leveraging Django rest framework 
+### Backend admin panel
+https://odop.insighttellers.com/admin
+username: admin
+password: test
 
+Built using django and leveraging Django rest framework 
 using celery for optimization of the ML code used in the backend
 
 ### Frontend GitHub link of this project
